@@ -10,6 +10,7 @@ h_0 = 0.697
 rho_0 = 147.7543  # rho_crit(z = 0) in M_solar/kpc^3
 OmegaM_0 = 0.281
 OmegaL_0 = 1.0 - OmegaM_0
+delta_sc_0 = 1.686
 
 
 def rho_c(z=0.0):
@@ -35,6 +36,10 @@ def Phi(z=0.0):
 
 def D(z=0.0):
     return (OmegaM(z) * Phi(0.0)) / (OmegaM_0 * Phi(z) * (1.0 + z))
+
+
+def delta_sc(z=0.0):
+    return delta_sc_0 / D(z)
 
 
 def sigma(m, z=0.0):
