@@ -43,7 +43,6 @@ def delta_sc(z=0.0):
 
 
 def sigma(m, z=0.0):
-    # TODO: implement ksi in correct units
     ksi = 1.0 / m
     return (D(z) * 22.26 * np.power(ksi, 0.292)) / (
         1.0 + 1.53 * np.power(ksi, 0.275) + 3.36 * np.power(ksi, 0.198)
