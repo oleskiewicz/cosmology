@@ -47,3 +47,15 @@ def sigma(m, z=0.0):
     return (D(z) * 22.26 * np.power(ksi, 0.292)) / (
         1.0 + 1.53 * np.power(ksi, 0.275) + 3.36 * np.power(ksi, 0.198)
     )
+
+
+def fR(z=0.0, n=1):
+    """f_R(z) / f_R0 for Hu-Sawicki f(R) gravity
+    """
+    return np.abs(
+        (
+            (1 + 4 * (OmegaL(z) / OmegaM(z)))
+            / ((1 + z) ** 3 + 4 * (OmegaL(z) / OmegaM(z)))
+        )
+        ** (n + 1)
+    )
