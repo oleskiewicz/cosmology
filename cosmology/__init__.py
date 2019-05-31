@@ -11,6 +11,7 @@ rho_0 = 147.7543  # rho_crit(z = 0) in M_solar/kpc^3
 OmegaM_0 = 0.281
 OmegaL_0 = 1.0 - OmegaM_0
 delta_sc_0 = 1.686
+c = 299_792_458  # m/sec
 
 
 def rho_c(z=0.0):
@@ -22,7 +23,7 @@ def OmegaM(z=0.0):
 
 
 def OmegaL(z=0.0):
-    return OmegaL_0 / (OmegaL_0 + OmegaM_0 * np.power(1.0 + z, 3.0))
+    return np.divide(OmegaL_0, OmegaL_0 + OmegaM_0 * np.power(1 + z, 3))
 
 
 def Phi(z=0.0):
@@ -52,10 +53,10 @@ def sigma(m, z=0.0):
 def fR(z=0.0, n=1):
     """f_R(z) / f_R0 for Hu-Sawicki f(R) gravity
     """
-    return np.abs(
-        (
-            (1 + 4 * (OmegaL(z) / OmegaM(z)))
-            / ((1 + z) ** 3 + 4 * (OmegaL(z) / OmegaM(z)))
-        )
-        ** (n + 1)
+    return np.power(
+        np.divide(
+            1 + 4 * np.divide(OmegaL(z), OmegaM(z)),
+            np.power(1 + z, 3) + 4 * np.divide(OmegaL(z), OmegaM(z)),
+        ),
+        n + 1,
     )
