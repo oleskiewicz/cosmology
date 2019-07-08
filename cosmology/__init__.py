@@ -60,3 +60,9 @@ def fR(z=0.0, n=1):
         ),
         n + 1,
     )
+
+
+def p2(fR, z=0.0):
+    """p2 mass rescaling for f(R) gravity (Mitchell+2019)
+    """
+    return 1.503 * np.log10(np.divide(fR, 1 + z)) + 21.64
