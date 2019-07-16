@@ -94,7 +94,7 @@ def correction_mitchell(c, m, z, fR0):
         np.sqrt(2.0),
     )
 
-    x = m500_from_m200(c, m) - p2(fR0 * fR(z), 0)
+    x = m500_from_m200(c, m) - p2(fR0 * fR(z), z)
     xp = (x - k_s) / o_s
 
     return (
