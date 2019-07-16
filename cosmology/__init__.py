@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
+from scipy.optimize import root
+from scipy.special import erf
 
 from . import einasto
 from . import nfw
@@ -66,3 +68,45 @@ def p2(fR, z=0.0):
     """p2 mass rescaling for f(R) gravity (Mitchell+2019)
     """
     return 1.503 * np.log10(np.divide(fR, 1 + z)) + 21.64
+
+
+def m500_from_m200(c, m200):
+    return (
+        m200
+        * root(
+            lambda x: np.log10(cosmology.nfw.rho_enc(x, c=c)) - np.log10(500),
+            0.7,
+        ).x[0]
+    )
+
+
+def correction_mitchell(c, m, z, fR0):
+    """Mitchell+2019 model
+    """
+    l, k_s, o_s, a, g, o_t, k_t, sqrt2 = (
+        0.458,
+        -0.324,
+        1.49,
+        -6.17,
+        -0.039,
+        0.82,
+        0.01,
+        np.sqrt(2.0),
+    )
+
+    x = m500_from_m200(c, m) - p2(fR0 * fR(z), 0)
+    xp = (x - k_s) / o_s
+
+    return (
+        0.5
+        * (
+            (
+                (l / o_s)
+                * 0.398_942_280_401_432_7  # 1/sqrt(2pi)
+                * np.exp(-0.5 * xp * xp)
+                * (1 + erf((a * xp) / sqrt2))
+            )
+            + g
+        )
+        * (1 - np.tanh(o_t * (x + k_t)))
+    )
